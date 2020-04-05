@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main"
+    >
+
+    <ImageView
+        android:id="@+id/image_preview"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:scaleType="centerCrop" />
+    <com.example.photoeditor.Utils.NonSwipeableViewpager
+        android:layout_height="120dp"
+        android:id="@+id/viewpager"
+        android:layout_below="@+id/image_preview"
+        android:layout_above="@+id/tabs"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent">
+
+    </com.example.photoeditor.Utils.NonSwipeableViewpager>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        app:tabGravity ="fill"
+        app:tabMode="fixed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+    </com.google.android.material.tabs.TabLayout>
+
+</RelativeLayout>
