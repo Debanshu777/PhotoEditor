@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="ring"
+            android:useLevel="false"
+            android:thickness="2dp"
+            >
+            <gradient
+                android:startColor="@color/deep_purple_500"
+                android:endColor="@color/purple_500"
+                android:angle="0"/>
+        </shape>
+    </item>
+
+</selector>

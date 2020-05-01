@@ -14,7 +14,7 @@
     <ImageView
         android:id="@+id/image_preview"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="470dp"
         android:scaleType="centerCrop" />
     <com.example.photoeditor.Utils.NonSwipeableViewpager
         android:layout_height="120dp"

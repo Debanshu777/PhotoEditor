@@ -10,14 +10,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/filter_name"
         android:text="FILTER NAME"
+        android:textSize="13dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"/>
     <ImageView
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:id="@+id/thumbnail"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:layout_height="80dp"/>
+        android:layout_height="100dp"/>
 
 </LinearLayout>

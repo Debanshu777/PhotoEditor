@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.example.photoeditor.Interface.EditImageFragmentListener;
@@ -16,6 +18,8 @@ import com.example.photoeditor.Interface.EditImageFragmentListener;
 public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
     private EditImageFragmentListener listener;
     SeekBar seekbar_brightness,seekbar_constrant,seekbar_saturation;
+    LinearLayout all, brightness,saturation,contrast,brightness_scale,contrast_scale,saturation_scale;
+    Button cancel_button;
 
     public void setListener(EditImageFragmentListener listener) {
         this.listener = listener;
@@ -34,6 +38,57 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         seekbar_brightness=itemView.findViewById(R.id.seekbar_brightness);
         seekbar_constrant=itemView.findViewById(R.id.seekbar_contrast);
         seekbar_saturation=itemView.findViewById(R.id.seekbar_saturation);
+
+        brightness=itemView.findViewById(R.id.brignthess);
+        contrast=itemView.findViewById(R.id.contrast);
+        saturation=itemView.findViewById(R.id.saturation);
+        all=itemView.findViewById(R.id.all);
+
+        brightness_scale=itemView.findViewById(R.id.brightness_scale);
+        contrast_scale=itemView.findViewById(R.id.contrast_scale);
+        saturation_scale=itemView.findViewById(R.id.saturation_scale);
+
+        cancel_button=itemView.findViewById(R.id.cancel_btn);
+
+
+        brightness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setVisibility(View.GONE);
+                brightness_scale.setVisibility(View.VISIBLE);
+                cancel_button.setVisibility(View.VISIBLE);
+
+            }
+        });
+        contrast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setVisibility(View.GONE);
+                contrast_scale.setVisibility(View.VISIBLE);
+                cancel_button.setVisibility(View.VISIBLE);
+
+            }
+        });
+        saturation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setVisibility(View.GONE);
+                saturation_scale.setVisibility(View.VISIBLE);
+                cancel_button.setVisibility(View.VISIBLE);
+
+            }
+        });
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setVisibility(View.VISIBLE);
+                cancel_button.setVisibility(View.GONE);
+                saturation_scale.setVisibility(View.GONE);
+                brightness_scale.setVisibility(View.GONE);
+                contrast_scale.setVisibility(View.GONE);
+
+            }
+        });
 
         seekbar_brightness.setMax(200);
         seekbar_brightness.setProgress(100);
@@ -83,7 +138,7 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
     }
     public void resetControl(){
         seekbar_brightness.setProgress(100);
-        seekbar_constrant.setProgress(0);
-        seekbar_saturation.setProgress(10);
+        seekbar_constrant.setProgress(100);
+        seekbar_saturation.setProgress(100);
     }
 }

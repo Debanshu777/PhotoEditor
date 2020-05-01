@@ -22,7 +22,7 @@ import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter;
 
 public class MainActivity extends AppCompatActivity implements FilterListFragmentListener, EditImageFragmentListener {
 
-    public static final String pictureName ="MyPic.jpg";
+    public static final String pictureName ="MyPic2.jpg";
     public static final int PERMISSION_PIC_IMAGE=1000;
 
     ImageView image_preview;

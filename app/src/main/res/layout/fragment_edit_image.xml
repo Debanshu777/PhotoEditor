@@ -2,61 +2,134 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginLeft="16sp"
     android:layout_marginRight="16dp"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:layout_height="match_parent"
     tools:context=".EditImageFragment">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancel_btn"
+        android:layout_gravity="right"
+        android:visibility="gone"
+        android:backgroundTint="#fff"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:id="@+id/all"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/brignthess"
+            android:layout_weight="1"
+            android:background="@drawable/progress_gradient"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/brightness_icon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:id="@+id/contrast"
+            android:layout_weight="1"
+            android:background="@drawable/progress_gradient"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/contrast_icon" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:id="@+id/saturation"
+            android:background="@drawable/progress_gradient"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/saturation_icon" />
+        </LinearLayout>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:id="@+id/brightness_scale"
+        android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Brightness"
-            android:textSize="20dp"/>
+            android:textSize="15dp" />
+
         <SeekBar
-            android:layout_marginTop="3dp"
             android:id="@+id/seekbar_brightness"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:orientation="vertical">
+        android:layout_marginTop="7dp"
+        android:id="@+id/contrast_scale"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contrast"
-            android:textSize="20dp"/>
+            android:textSize="15dp" />
+
         <SeekBar
-            android:layout_marginTop="3dp"
             android:id="@+id/seekbar_contrast"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" />
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginTop="7dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:orientation="vertical">
+        android:layout_marginTop="7dp"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:id="@+id/saturation_scale"
+        android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Saturation"
-            android:textSize="20dp"/>
+            android:textSize="15dp" />
+
         <SeekBar
-            android:layout_marginTop="3dp"
             android:id="@+id/seekbar_saturation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" />
     </LinearLayout>
 
 
