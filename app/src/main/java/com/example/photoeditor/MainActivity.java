@@ -1,24 +1,45 @@
 package com.example.photoeditor;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.photoeditor.Adapter.ViewPagerAdapter;
 import com.example.photoeditor.Interface.EditImageFragmentListener;
 import com.example.photoeditor.Interface.FilterListFragmentListener;
 import com.example.photoeditor.Utils.BitmapUtils;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.zomato.photofilters.imageprocessors.Filter;
 import com.zomato.photofilters.imageprocessors.subfilters.BrightnessSubFilter;
 import com.zomato.photofilters.imageprocessors.subfilters.ContrastSubFilter;
 import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements FilterListFragmentListener, EditImageFragmentListener {
 
@@ -51,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
         setContentView(R.layout.activity_main);
         Toolbar toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Photo Editor");
 
         //view
@@ -68,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
 
     private void loadImage() {
         originalBitmap= BitmapUtils.getBitmapFromAssets(this,pictureName,300,300);
+        assert originalBitmap != null;
         filterBitmap=originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
         finalBitmap =originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
         image_preview.setImageBitmap(originalBitmap);
@@ -107,9 +129,9 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
     public void onConstrantChanged(float constrant) {
         contrastFinal=constrant;
         Filter myFilter=new Filter();
+        //myFilter.addSubFilter(new St);
         myFilter.addSubFilter(new ContrastSubFilter(constrant));
         image_preview.setImageBitmap(myFilter.processFilter(finalBitmap.copy(Bitmap.Config.ARGB_8888,true)));
-
     }
 
     @Override
@@ -131,14 +153,13 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
 
     @Override
     public void onFilterSelected(Filter filter) {
-        resetcontol();
         filterBitmap=originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
         image_preview.setImageBitmap(filter.processFilter(filterBitmap));
-        finalBitmap=finalBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        finalBitmap=filterBitmap.copy(Bitmap.Config.ARGB_8888,true);
 
     }
 
-    private void resetcontol() {
+    private void resetContol() {
         if(editImageFragment!=null){
             editImageFragment.resetControl();
         }
@@ -151,5 +172,122 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id=item.getItemId();
+        if(id==R.id.action_open){
+            openImageFromGallery();
+            return true;
+        }
+        if(id== R.id.action_save){
+            saveImageToGallery();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void saveImageToGallery() {
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if(report.areAllPermissionsGranted()){
+                            try {
+                                final String path=BitmapUtils.insertImage(getContentResolver()
+                                ,finalBitmap,System.currentTimeMillis()+"_profile.jpg",
+                                        null);
+                                if(!TextUtils.isEmpty(path)){
+                                    Snackbar snackbar=Snackbar.make(coordinatorLayout,
+                                            "Image saved to gallery!",
+                                            Snackbar.LENGTH_LONG).setAction("Open",
+                                            new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    openImage(path);
+                                                }
+                                            });
+                                    snackbar.show();
+                                }
+                                else {
+                                    Snackbar snackbar=Snackbar.make(coordinatorLayout,
+                                            "Unable to save Image",
+                                            Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+
+                                }
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Permission denied!", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+    private void openImage(String path) {
+        Intent intent=new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(path),"image/");
+        startActivity(intent);
+    }
+
+    private void openImageFromGallery() {
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if(report.areAllPermissionsGranted()){
+                            Intent intent =new Intent(Intent.ACTION_PICK);
+                            intent.setType("image/*");
+                            startActivityForResult(intent,PERMISSION_PIC_IMAGE);
+
+                        }
+                        else{
+                            Toast.makeText(MainActivity.this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == PERMISSION_PIC_IMAGE) {
+            assert data != null;
+            Bitmap bitmap = BitmapUtils.getBitmapFromGallary(this, data.getData(), 800, 800);
+            //clear bitmap memory
+            originalBitmap.recycle();
+            finalBitmap.recycle();
+            filterBitmap.recycle();
+
+            originalBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            finalBitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            filterBitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
+            image_preview.setImageBitmap(originalBitmap);
+            bitmap.recycle();
+            // render selected image thumbnail
+            filterListFragment.displayedThumbnail(originalBitmap);
+
+        }
     }
 }

@@ -18,8 +18,8 @@ import com.example.photoeditor.Interface.EditImageFragmentListener;
 public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
     private EditImageFragmentListener listener;
     SeekBar seekbar_brightness,seekbar_constrant,seekbar_saturation;
-    LinearLayout all, brightness,saturation,contrast,brightness_scale,contrast_scale,saturation_scale;
-    Button cancel_button;
+    LinearLayout all, brightness,saturation,contrast,brightness_scale,contrast_scale,saturation_scale,options;
+    Button cancel_button,done_button;
 
     public void setListener(EditImageFragmentListener listener) {
         this.listener = listener;
@@ -49,6 +49,9 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         saturation_scale=itemView.findViewById(R.id.saturation_scale);
 
         cancel_button=itemView.findViewById(R.id.cancel_btn);
+        done_button=itemView.findViewById(R.id.done_button);
+        options=itemView.findViewById(R.id.options);
+
 
 
         brightness.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +59,7 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
             public void onClick(View v) {
                 all.setVisibility(View.GONE);
                 brightness_scale.setVisibility(View.VISIBLE);
-                cancel_button.setVisibility(View.VISIBLE);
+                options.setVisibility(View.VISIBLE);
 
             }
         });
@@ -65,7 +68,7 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
             public void onClick(View v) {
                 all.setVisibility(View.GONE);
                 contrast_scale.setVisibility(View.VISIBLE);
-                cancel_button.setVisibility(View.VISIBLE);
+                options.setVisibility(View.VISIBLE);
 
             }
         });
@@ -74,7 +77,7 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
             public void onClick(View v) {
                 all.setVisibility(View.GONE);
                 saturation_scale.setVisibility(View.VISIBLE);
-                cancel_button.setVisibility(View.VISIBLE);
+                options.setVisibility(View.VISIBLE);
 
             }
         });
@@ -82,12 +85,22 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
             @Override
             public void onClick(View v) {
                 all.setVisibility(View.VISIBLE);
-                cancel_button.setVisibility(View.GONE);
+                options.setVisibility(View.GONE);
                 saturation_scale.setVisibility(View.GONE);
                 brightness_scale.setVisibility(View.GONE);
                 contrast_scale.setVisibility(View.GONE);
-
+                resetControl();
             }
+        });
+        done_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                all.setVisibility(View.VISIBLE);
+                options.setVisibility(View.GONE);
+                saturation_scale.setVisibility(View.GONE);
+                brightness_scale.setVisibility(View.GONE);
+                contrast_scale.setVisibility(View.GONE);
+                }
         });
 
         seekbar_brightness.setMax(200);
@@ -112,12 +125,11 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
                 listener.onBrightnessChanged(progress-100);
             }
             else if (seekBar.getId()== R.id.seekbar_contrast){
-                progress+=10;
-                float value =.10f*progress;
+                float value =.01f*progress;
                 listener.onConstrantChanged(value);
             }
             else if(seekBar.getId()== R.id.seekbar_saturation){
-                float value =.10f*progress;
+                float value =.01f*progress;
                 listener.onSaturationChanged(value);
             }
         }
@@ -140,5 +152,8 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         seekbar_brightness.setProgress(100);
         seekbar_constrant.setProgress(100);
         seekbar_saturation.setProgress(100);
+        onProgressChanged(seekbar_brightness,100,true);
+        onProgressChanged(seekbar_constrant,100,true);
+        onProgressChanged(seekbar_saturation,100,true);
     }
 }

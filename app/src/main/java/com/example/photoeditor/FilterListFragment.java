@@ -24,6 +24,7 @@ import com.zomato.photofilters.utils.ThumbnailsManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FilterListFragment extends Fragment implements FilterListFragmentListener {
     RecyclerView recyclerView;
@@ -52,19 +53,19 @@ public class FilterListFragment extends Fragment implements FilterListFragmentLi
         recyclerView.addItemDecoration(new SpacesItemDecoration(space));
         recyclerView.setAdapter(adapter);
 
-        diaplayedThumbnail(null);
+        displayedThumbnail(null);
 
 
         return itemView;
     }
 
-    private void diaplayedThumbnail(final Bitmap bitmap) {
+    public void displayedThumbnail(final Bitmap bitmap) {
         Runnable r =new Runnable() {
             @Override
             public void run() {
                 Bitmap thumbImg;
                 if (bitmap ==null){
-                    thumbImg= BitmapUtils.getBitmapFromAssets(getActivity(),MainActivity.pictureName,100,100);
+                    thumbImg= BitmapUtils.getBitmapFromAssets(Objects.requireNonNull(getActivity()),MainActivity.pictureName,100,100);
                 }
                 else {
                     thumbImg=Bitmap.createScaledBitmap(bitmap,100,100,false);
@@ -80,7 +81,7 @@ public class FilterListFragment extends Fragment implements FilterListFragmentLi
                 thumbnailItem.filterName="Original";
                 ThumbnailsManager.addThumb(thumbnailItem);
 
-                List<Filter> filters= FilterPack.getFilterPack(getActivity());
+                List<Filter> filters= FilterPack.getFilterPack(Objects.requireNonNull(getActivity()));
                 for(Filter filter:filters){
                     ThumbnailItem tI=new ThumbnailItem();
                     tI.image=thumbImg;
