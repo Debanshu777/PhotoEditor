@@ -41,12 +41,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
+import ja.burhanrashid52.photoeditor.OnSaveBitmap;
+import ja.burhanrashid52.photoeditor.PhotoEditor;
+import ja.burhanrashid52.photoeditor.PhotoEditorView;
+
 public class MainActivity extends AppCompatActivity implements FilterListFragmentListener, EditImageFragmentListener {
 
     public static final String pictureName ="MyPic2.jpg";
     public static final int PERMISSION_PIC_IMAGE=1000;
 
-    ImageView image_preview;
+    PhotoEditorView photoeditorview;
+    PhotoEditor photoEditor;
     TabLayout tablayout;
     ViewPager viewPager;
     CoordinatorLayout coordinatorLayout;
@@ -76,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
         getSupportActionBar().setTitle("Photo Editor");
 
         //view
-        image_preview=findViewById(R.id.image_preview);
+        photoeditorview=findViewById(R.id.image_preview);
+        photoEditor=new PhotoEditor.Builder(this,photoeditorview).setPinchTextScalable(true).build();
         tablayout=findViewById(R.id.tabs);
         viewPager=findViewById(R.id.viewpager);
         coordinatorLayout=findViewById(R.id.coordinator);
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
         assert originalBitmap != null;
         filterBitmap=originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
         finalBitmap =originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
-        image_preview.setImageBitmap(originalBitmap);
+        photoeditorview.getSource().setImageBitmap(originalBitmap);
     }
 
     private void setUpViewPager(ViewPager viewPager) {
@@ -113,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
         brightnessFinal=brightness;
         Filter myFilter=new Filter();
         myFilter.addSubFilter(new BrightnessSubFilter(brightness));
-        image_preview.setImageBitmap(myFilter.processFilter(finalBitmap.copy(Bitmap.Config.ARGB_8888,true)));
+        photoeditorview.getSource().setImageBitmap(myFilter.processFilter(finalBitmap.copy(Bitmap.Config.ARGB_8888,true)));
 
     }
 
@@ -122,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
         saturationFinal=saturation;
         Filter myFilter=new Filter();
         myFilter.addSubFilter(new SaturationSubfilter(saturation));
-        image_preview.setImageBitmap(myFilter.processFilter(finalBitmap.copy(Bitmap.Config.ARGB_8888,true)));
+        photoeditorview.getSource().setImageBitmap(myFilter.processFilter(finalBitmap.copy(Bitmap.Config.ARGB_8888,true)));
     }
 
     @Override
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
         Filter myFilter=new Filter();
         //myFilter.addSubFilter(new St);
         myFilter.addSubFilter(new ContrastSubFilter(constrant));
-        image_preview.setImageBitmap(myFilter.processFilter(finalBitmap.copy(Bitmap.Config.ARGB_8888,true)));
+        photoeditorview.getSource().setImageBitmap(myFilter.processFilter(finalBitmap.copy(Bitmap.Config.ARGB_8888,true)));
     }
 
     @Override
@@ -154,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
     @Override
     public void onFilterSelected(Filter filter) {
         filterBitmap=originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
-        image_preview.setImageBitmap(filter.processFilter(filterBitmap));
+        photoeditorview.getSource().setImageBitmap(filter.processFilter(filterBitmap));
         finalBitmap=filterBitmap.copy(Bitmap.Config.ARGB_8888,true);
 
     }
@@ -196,33 +202,43 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if(report.areAllPermissionsGranted()){
-                            try {
-                                final String path=BitmapUtils.insertImage(getContentResolver()
-                                ,finalBitmap,System.currentTimeMillis()+"_profile.jpg",
-                                        null);
-                                if(!TextUtils.isEmpty(path)){
-                                    Snackbar snackbar=Snackbar.make(coordinatorLayout,
-                                            "Image saved to gallery!",
-                                            Snackbar.LENGTH_LONG).setAction("Open",
-                                            new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    openImage(path);
-                                                }
-                                            });
-                                    snackbar.show();
+                            photoEditor.saveAsBitmap(new OnSaveBitmap() {
+                                @Override
+                                public void onBitmapReady(Bitmap saveBitmap) {
+                                    try {
+                                        final String path=BitmapUtils.insertImage(getContentResolver()
+                                                ,saveBitmap,System.currentTimeMillis()+"_profile.jpg",
+                                                null);
+                                        if(!TextUtils.isEmpty(path)){
+                                            Snackbar snackbar=Snackbar.make(coordinatorLayout,
+                                                    "Image saved to gallery!",
+                                                    Snackbar.LENGTH_LONG).setAction("Open",
+                                                    new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            openImage(path);
+                                                        }
+                                                    });
+                                            snackbar.show();
+                                        }
+                                        else {
+                                            Snackbar snackbar=Snackbar.make(coordinatorLayout,
+                                                    "Unable to save Image",
+                                                    Snackbar.LENGTH_LONG);
+                                            snackbar.show();
+
+                                        }
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                else {
-                                    Snackbar snackbar=Snackbar.make(coordinatorLayout,
-                                            "Unable to save Image",
-                                            Snackbar.LENGTH_LONG);
-                                    snackbar.show();
+
+                                @Override
+                                public void onFailure(Exception e) {
 
                                 }
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            });
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Permission denied!", Toast.LENGTH_SHORT).show();
@@ -283,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements FilterListFragmen
             originalBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
             finalBitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
             filterBitmap = originalBitmap.copy(Bitmap.Config.ARGB_8888, true);
-            image_preview.setImageBitmap(originalBitmap);
+            photoeditorview.getSource().setImageBitmap(originalBitmap);
             bitmap.recycle();
             // render selected image thumbnail
             filterListFragment.displayedThumbnail(originalBitmap);
