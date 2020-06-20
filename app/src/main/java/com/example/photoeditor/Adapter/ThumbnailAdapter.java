@@ -44,8 +44,13 @@ public class ThumbnailAdapter extends RecyclerView.Adapter<ThumbnailAdapter.MyVi
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onFilterSelected(thumbnailItem.filter);
-                selectedIndex=position;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onFilterSelected(thumbnailItem.filter);
+                        selectedIndex=position;
+                    }
+                }).start();
                 notifyDataSetChanged();
             }
         });
