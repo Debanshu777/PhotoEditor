@@ -19,8 +19,31 @@ info.androidhive:imagefilters:1.0.7
 implementation 'ja.burhanrashid52:photoeditor:1.0.0'
 ```
 
-## Screenshots and Video
-[<img src="https://drive.google.com/drive/folders/1nzFhJFols3IPeMpdeWx9qE14aiHF0uQf" width="50%">]
+## Screenshots
+<table>
+  <tr>
+    <td>Splash Screen</td>
+     <td>Main Interface</td>
+     <td>On Tap on any filter</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image3.png" width=240 height=470/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image1.png" width=240 height=470/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image2.png" width=240 height=470/></td>
+  </tr>
+  <tr>
+    <td>Edit Page</td>
+    <td>Brightness Change</td>
+     <td>Contrast Change </td>
+     <td>Saturation Change</td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image7.png" width=240 height=470/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image4.png" width=240 height=470/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image5.png" width=240 height=470/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image6.png" width=240 height=470/></td>
+  </tr>
+ </table>
 
 ## How To Run This
 <> Open your terminal (NOTE: git bash prefered/ Terminal on Android Studio/Any Other Editor)</br>
