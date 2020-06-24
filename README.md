@@ -27,9 +27,9 @@ implementation 'ja.burhanrashid52:photoeditor:1.0.0'
      <td>On Tap on any filter</td>
   </tr>
   <tr>
-    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image3.png" width=240 height=470/></td>
-    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image1.png" width=240 height=470/></td>
-    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image2.png" width=240 height=470/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image3.png" width=240 height=430/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image1.png" width=240 height=430/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image2.png" width=240 height=430/></td>
   </tr>
   <tr>
     <td>Edit Page</td>
@@ -38,10 +38,10 @@ implementation 'ja.burhanrashid52:photoeditor:1.0.0'
      <td>Saturation Change</td>
   </tr>
   <tr>
-    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image7.png" width=240 height=470/></td>
-    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image4.png" width=240 height=470/></td>
-    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image5.png" width=240 height=470/></td>
-    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image6.png" width=240 height=470/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image7.png" width=240 height=430/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image4.png" width=240 height=430/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image5.png" width=240 height=430/></td>
+    <td><img src="https://github.com/Debanshu777/PhotoEditor/blob/master/app/Screenshorts/image6.png" width=240 height=430/></td>
   </tr>
  </table>
 

@@ -20,14 +20,17 @@
 
         <Button
             android:id="@+id/done_button"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
+            android:textColor="#000"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:backgroundTint="#fff"
             android:text="Done" />
-
         <Button
+            android:textColor="#000"
             android:id="@+id/cancel_btn"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -35,89 +38,6 @@
             android:backgroundTint="#fff"
             android:text="Cancel" />
     </LinearLayout>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:id="@+id/pop_up_brush"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/linear_layout_bottom_sheet_brush"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            android:layout_height="120dp"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="10dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="kalle kalle "
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="helllo"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:text="balle balle" />
-        </LinearLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:id="@+id/pop_up"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/linear_layout_bottom_sheet"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            android:layout_height="120dp"
-            app:behavior_hideable="true"
-            app:behavior_peekHeight="10dp">
-
-            <TextView
-                android:id="@+id/text_view_sheet_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="kalle kalle "
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/text_view_more_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_sheet_title"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="helllo"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:text="balle balle" />
-        </LinearLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <HorizontalScrollView
         android:layout_width="match_parent"

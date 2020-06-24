@@ -22,7 +22,6 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
     SeekBar seekbar_brightness, seekbar_constrant, seekbar_saturation;
     LinearLayout all, brightness, saturation, contrast, brightness_scale, contrast_scale, saturation_scale, options;
     LinearLayout brush_edit;
-    CoordinatorLayout pop_up_brush;
     Button cancel_button, done_button;
     View bottomSheetLayout;
 
@@ -76,7 +75,6 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
                 saturation_scale.setVisibility(View.GONE);
                 brightness_scale.setVisibility(View.GONE);
                 contrast_scale.setVisibility(View.GONE);
-                pop_up_brush.setVisibility(View.GONE);
                 resetControl();
             }
         });
@@ -87,7 +85,6 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
                 options.setVisibility(View.GONE);
                 saturation_scale.setVisibility(View.GONE);
                 brightness_scale.setVisibility(View.GONE);
-                pop_up_brush.setVisibility(View.GONE);
                 contrast_scale.setVisibility(View.GONE);
             }
         });
@@ -105,17 +102,6 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         seekbar_constrant.setOnSeekBarChangeListener(this);
         seekbar_saturation.setOnSeekBarChangeListener(this);
 
-        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        brush_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                all.setVisibility(View.GONE);
-                pop_up_brush.setVisibility(View.VISIBLE);
-                options.setVisibility(View.VISIBLE);
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
         return itemView;
     }
 
@@ -133,13 +119,11 @@ public class EditImageFragment extends Fragment implements SeekBar.OnSeekBarChan
         contrast_scale = itemView.findViewById(R.id.contrast_scale);
         saturation_scale = itemView.findViewById(R.id.saturation_scale);
         brush_edit = itemView.findViewById(R.id.brush_edit);
-        pop_up_brush = itemView.findViewById(R.id.pop_up_brush);
 
         cancel_button = itemView.findViewById(R.id.cancel_btn);
         done_button = itemView.findViewById(R.id.done_button);
         options = itemView.findViewById(R.id.options);
 
-        bottomSheetLayout = itemView.findViewById(R.id.linear_layout_bottom_sheet_brush);
 
     }
 
